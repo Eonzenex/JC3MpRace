@@ -28,6 +28,12 @@ module.exports = ({
       }
     race.game.RaceList = [];
     race.utils.GetRaceData();
+    setTimeout(function() {
+      jcmp.players.forEach(player => {
+      jcmp.events.Call('Race_name_index',player);
+      })
+
+    }, 5000);
 
     }))
     .add(new Command('startrace').description('Start a race with id').parameter('id', 'number', 'index of the race').handler(function(player,id) {
