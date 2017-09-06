@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+        #Menu{
+          position: fixed;
+          top:30%;
+          left:35%;
+        }
+
+        #CarRace{
+          position: fixed;
+          right:55%;
+        }
+
+        </style>
+    </head>
+    <body>
+      <div id="Menu">
+        <div id="CarRace">
+  <button type="button" id="RaceCreate">Create Race</button>
+  <div id="VehicleSelect">
+    <p>Select the vehicle type for the race you want to create</p>
+    <p> Vehicle: </p>
+     <select>
+    <option value="car">Car</option>
+    <option value="airplane">Airplane</option>
+    <option value="boats">Boats</option>
+    <option value="wingsuit">Wingsuit</option>
+  </select>
+  </div>
+  <div id="WeatherSelect">
+    <p>Select the weather for the race you want</p>
+    <p>Weather: </p>
+     <select>
+    <option value="car">base</option>
+    <option value="airplane">rain</option>
+    <option value="boats">overcast</option>
+    <option value="wingsuit">thunderstorm</option>
+    <option value="wingsuit">fog</option>
+    <option value="wingsuit">snow</option>
+  </select>
+  </div>
+  <div>
+    <p>Default vehicle hash :</p>
+    <input type="text" name="hash" value="0000000">
+  </div>
+
+   <input type="checkbox" name="Alldefault" value="true" checked> Everyone have the same vehicle ?<br>
+
+    <button type="button" id="StartingPointRace">Starting Point</button>
+    <p>Go where you want the race start and press the button to set the start point</p>
+      <button type="button" id="CheckpointRace">Checkpoint</button>
+      <p>Press this button at every position you want to add a checkpoint</p>
+        <button type="button" id="EndingPointRace">EndingPoint</button>
+        <p>Press this button to add the ending point of the race</p>
+        </div>
+      </div>
+    </body>
+    <script>
+//    var startingpoint = `{"x": ${player.position.x},"y":${player.position.y},"z":${player.position.z},"rotx":${player.rotation.x},"roty":${player.rotation.y},"rotz":${player.rotation.z}}\n`;
+
+  //  var checkpointpoint = `{"x": ${player.position.x},"y":${player.position.y},"z":${player.position.z},"rotx":${player.rotation.x},"roty":${player.rotation.y},"rotz":${player.rotation.z},"id":${freeroam.id}}\n`;
+
+    </script>
+</html>

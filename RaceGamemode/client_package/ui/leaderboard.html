@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>race - Leaderboard </title>
+    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+    <style type="text/css">
+
+    #scoreboard .helper {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        width: 100%;
+        text-align: right;
+        font-size: 14px;
+        font-weight: bold;
+        color: #ffffff;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    }
+
+    #scoreboard .helper span {
+        color: #ffcc00;
+    }
+
+    #scoreboard.visible {
+        visibility: visible;
+        opacity: 1;
+        -webkit-transform: translate(-50%, -50%) scale(1);
+    }
+
+    #scoreboard.scrollable {
+        z-index: 1000;
+    }
+
+    #scoreboard .row {
+        padding: 10px;
+    }
+
+    #scoreboard .row .column {
+        position: relative;
+    }
+
+    #scoreboard .row .column:first-child {
+        -webkit-flex: 0.5;
+    }
+
+    #scoreboard .row .column:nth-child(2) {
+        -webkit-flex: 4;
+        padding-left: 30px;
+    }
+
+    #scoreboard .row .column:not(:first-child):not(:nth-child(2)) {
+        text-align: center;
+    }
+
+    #scoreboard .row .column img {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 16px;
+        height: 16px;
+        -webkit-transform: translateY(-50%);
+    }
+
+    #scoreboard .header {
+        font-weight: bold;
+        color: #ffffff;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+    }
+
+    #scoreboard .players {
+        font-size: 14px;
+        font-weight: bold;
+        min-height: 300px;
+        max-height: 500px;
+        overflow-y: scroll;
+        border: 6px solid transparent;
+        border-top: none;
+        -webkit-border-radius: 6px;
+    }
+
+    #scoreboard .players .row {
+        background-color: rgba(0, 0, 0, 0.35);
+        color: #ffffff;
+    }
+
+    #scoreboard .players .row:last-child {
+        border-bottom: none;
+    }
+
+    #scoreboard .players .row:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.55);
+    }
+
+    </style>
+</head>
+<body>
+  <div id="scoreboard">
+                       <div class="flexbox">
+                           <div class="row header">
+                               <div class="column">#</div>
+                               <div class="column">Name</div>
+                               <div class="column">Place</div>
+                               <div class="column">Time</div>
+                           </div>
+                           <div class="players"></div>
+                       </div>
+                   </div>
+    <script>
+              $scoreboard = $('#scoreboard'),
+              $players_el = $('#scoreboard .players'),
+
+              jcmp.AddEvent('Player_data_Leaderboard', function(playername,leaderboardplace,time) {
+
+                  });
+              function addPlayer(player) {
+                                      if (typeof findPlayer(player.id) !== 'undefined') {
+                                          return false;
+                                      }
+
+                                      var $el = $('<div class="row" style="color:' + player.colour + ';"> \
+                                          <div class="column" data-element="networkId">' + player.id + '</div> \
+                                          <div class="column" data-element="name">' + player.name + '</div> \
+                                          <div class="column" data-element="place">' + leaderboardplace + '</div> \
+                                          <div class="column" data-element="time">' + time + '</div> \
+                                      </div>');
+
+
+
+                                      player.isLocalPlayer ? $el.prependTo($players_el) : $el.appendTo($players_el);
+                                      player.element = $el;
+                                      $players.push(player);
+                                      return true;
+                                  }
+
+                                  function destroyPlayer(networkId) {
+                                      var player = findPlayer(networkId);
+                                      if (typeof player === 'undefined') {
+                                          return false;
+                                      }
+
+                                      player.element.remove();
+                                      $players.splice($players.indexOf(player), 1);
+                                      return true;
+                                  }
+
+                                  function updatePlayer(networkId, kills, deaths) {
+                                      var player = findPlayer(networkId);
+                                      if (typeof player === 'undefined') {
+                                          return false;
+                                      }
+
+                                      player.kills = kills;
+                                      player.deaths = deaths;
+                                      player.element.find('[data-element="place"]').text(player.race.place); // to replace
+                                      player.element.find('[data-element="time"]').text(player.race.time);  // to replace
+                                  }
+
+                                  function findPlayer(networkId) {
+                                      var result = $.grep($players, function(obj) {
+                                          return obj.id == networkId;
+                                      });
+
+                                      if (result.length === 0) {
+                                          return undefined;
+                                      }
+
+                                      return result[0];
+                                  }
+
+                                  function formatPlayerName(name, colour) {
+                                      var format;
+
+                                      if (typeof name !== 'undefined') {
+                                          format = $('<span />', {
+                                              text: name
+                                              style: 'color: ' + colour
+                                          });
+
+                                          if (name.length > 20) {
+                                              format.addClass('small');
+                                          }
+                                      }
+
+                                      return format;
+                                  }
+
+                                  jcmp.AddEvent('race_scoreboard_addplayer', function(data) {
+
+                  addPlayer($.parseJSON(data));
+              });
+
+              jcmp.AddEvent('race_scoreboard_updateplayer', function(networkId, place, times) {
+                  updatePlayer(networkId, place, times);
+              });
+
+              jcmp.AddEvent('race_scoreboard_removeplayer', function(networkId) {
+                  destroyPlayer(networkId);
+              });
+
+    </script>
+</body>
+</html>
