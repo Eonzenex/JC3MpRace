@@ -292,7 +292,7 @@ jcmp.events.Add('race_start_index', function (indexs) {
 jcmp.events.Add('Race_name_index',function(player){
   let index = race.game.RaceList;
     for(var i = 0; i < index.length; i++) {
-      console.log(`[SERVER] Index : ${i} , Name of the race : ${index[i].Name}`);
+  
       jcmp.events.CallRemote('Race_name_index_client',player,i,index[i].NameWithoutSpace ,index[i].Name );
     }
 
