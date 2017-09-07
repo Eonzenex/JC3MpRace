@@ -180,11 +180,7 @@ jcmp.events.Add('race_player_checkpoint_respawn', function (player,vehicleold)
   if (vehicleold != undefined){
       vehicleold.Destroy();
   }
-  jcmp.vehicles.forEach(vehicle => {
-    if(vehicle.driver == undefined){
-      vehicle.Destroy();
-    }
-  })
+
       player.Respawn();
 
   }, race.game.respawntimer));

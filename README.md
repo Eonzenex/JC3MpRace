@@ -31,4 +31,4 @@ Copy the files into you're server/packages folder
 15. Sync the voting system through all player and launch only one race event
 
 #### Credits
-Created by Myami(FR) and the help of lordFarquaad for scripting || JSON File (Race) created by Protato .
+Created by Myami(FR) and the help of lordFarquaad for scripting. || JSON File (Race) created by Protato .
