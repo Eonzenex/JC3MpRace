@@ -44,7 +44,9 @@ Start(){
         }else{
         //  jcmp.events.CallRemote('race_vehicle_choice_menu',player);
         }
-
+        setTimeout(function() {
+          jcmp.events.CallRemote('race_Freeze_player',player);
+        }, 1000);
 
         jcmp.events.CallRemote('race_set_time', player, this.time.hour, this.time.minute);
         jcmp.events.CallRemote('race_set_weather', player, this.weather);
@@ -54,6 +56,7 @@ Start(){
         jcmp.events.CallRemote('Checkpoint_length_client',player,this.raceCheckpoint.length);
         jcmp.events.CallRemote('Checkpoint_current_client',player,player.race.checkpoints);
         jcmp.events.CallRemote('race_Start_client',player);
+
 
 
         }

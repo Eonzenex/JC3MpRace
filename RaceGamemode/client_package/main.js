@@ -298,12 +298,12 @@ jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dime
      pois[nextcheckpointDATA.id] = poi;
 
 // to show the checkpoint
-  var chk = new Checkpoint(1, 0x301477DB, new Vector3f(nextcheckpointDATA.x,nextcheckpointDATA.y,nextcheckpointDATA.z),new Vector3f(nextcheckpointDATA.rotx,nextcheckpointDATA.roty,nextcheckpointDATA.rotz));
-      chk.radius = 15;
-      chk.visible = true;
-      chk.dimension = dimension;
-      chk.id = nextcheckpointDATA.id;
-      chks[nextcheckpointDATA.id] = chk;
+  var checkpoint = new Checkpoint(1, 0x301477DB, new Vector3f(nextcheckpointDATA.x,nextcheckpointDATA.y,nextcheckpointDATA.z),new Vector3f(nextcheckpointDATA.rotx,nextcheckpointDATA.roty,nextcheckpointDATA.rotz));
+      checkpoint.radius = 15;
+      checkpoint.visible = true;
+      checkpoint.dimension = dimension;
+      checkpoint.id = nextcheckpointDATA.id;
+      chks[nextcheckpointDATA.id] = checkpoint;
   // call every time a player reach a checkpoint to set the new one
 
 });
@@ -327,12 +327,11 @@ function deletePOI(){
   })
 }
 function deleteCheckpoint(){
-  chks.forEach(chk => {
+  chks.forEach(checkpoint => {
 
-          //   poi.Destroy();
-          chk.visible = false;
-          chk.splice(poi.id,1);
-          chk.Destroy();
+    checkpoint.visible = false;
+    chks.splice(checkpoint.id,1);
+    checkpoint.Destroy();
   })
 }
 
@@ -347,20 +346,23 @@ jcmp.events.AddRemoteCallable('race_End_client', function() {
 // remove all the UI from the race and reset it
 playeringame = false;
 //jcmp.localPlayer.controlsEnabled = true;
-//deletePOI();
-//deleteCheckpoint();
+deletePOI();
+deleteCheckpoint();
 jcmp.ui.CallEvent('Race_Checkpoint_container',false);
 
 
 });
 
 jcmp.events.AddRemoteCallable('race_Start_client', function() {
-  jcmp.localPlayer.controlsEnabled = false;
   playeringame = true;
   jcmp.ui.CallEvent('Race_Checkpoint_container',true);
   jcmp.ui.CallEvent('Race_Timer_container',true);
   jcmp.ui.CallEvent('Countdown_start');
   //doing the countdown for the race to start
+});
+jcmp.events.AddRemoteCallable('race_Freeze_player', function() {
+  jcmp.localPlayer.controlsEnabled = false;
+
 });
 
 jcmp.ui.AddEvent('race_countdown_end', function() {

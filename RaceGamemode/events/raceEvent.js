@@ -144,10 +144,11 @@ jcmp.events.Add('race_player_leave_game', function (player,destroy)
     player.race.checkpoints = 0;
     player.race.hasfinish = false;
     player.race.time = 0;
+    jcmp.events.CallRemote('race_End_client',player);
 
 
     if (!destroy) {
-        jcmp.events.CallRemote('race_End_client',player);
+
         race.game.players.onlobby.push(player);
         player.race.ingame = false;
         player.dimension = 0;
@@ -161,9 +162,6 @@ jcmp.events.Add('race_player_leave_game', function (player,destroy)
             player.Respawn();
         }, 5000));
 
-    }
-    if (destroy){
-        jcmp.events.CallRemote('race_End_client',player);
     }
 
 });
