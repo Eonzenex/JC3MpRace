@@ -18,6 +18,7 @@ adminchoice.autoResize = true;
 
 //POI
 let pois = [];
+let poisg = [];
 //checkpoint
 let chks = [];
 // player
@@ -285,10 +286,15 @@ jcmp.ui.AddEvent('Race_Index_cef',function(index){
 jcmp.events.CallRemote('Race_index_received_admin',index);
 });
 
-jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dimension) {
+
+jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dimension,typepoi,hashcheckpoint,typecheckpoint,ghostcheckpoint) {
   let nextcheckpointDATA = JSON.parse(checkpoint);
-// to show the distance
-  const poi = new POI(10,new Vector3f(nextcheckpointDATA.x,nextcheckpointDATA.y,nextcheckpointDATA.z));
+  let ghostcheckpointDATA ;
+  if (ghostcheckpoint != undefined){
+    ghostcheckpointDATA = JSON.parse(ghostcheckpoint);
+  }
+
+  const poi = new POI(typepoi,new Vector3f(nextcheckpointDATA.x,nextcheckpointDATA.y,nextcheckpointDATA.z));
      poi.minDistance = 10.0;
      poi.maxDistance = 100000.0;
      poi.clampedToScreen = false;
@@ -297,8 +303,22 @@ jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dime
      poi.dimension = dimension;//Race.id
      pois[nextcheckpointDATA.id] = poi;
 
+     if (ghostcheckpoint != undefined){
+       const ghostpoi = new POI(typepoi,new Vector3f(ghostcheckpointDATA.x,ghostcheckpointDATA.y,ghostcheckpointDATA.z));
+          ghostpoi.minDistance = 10.0;
+          ghostpoi.maxDistance = 100000.0;
+          ghostpoi.clampedToScreen = false;
+          ghostpoi.text = "Ghost Checkpoint";
+          ghostpoi.id = ghostcheckpointDATA.id;
+          ghostpoi.dimension = dimension;//Race.id
+          poisg[ghostcheckpointDATA.id] = ghostpoi;
+
+
+     }
+
 // to show the checkpoint
-  var checkpoint = new Checkpoint(1, 0x301477DB, new Vector3f(nextcheckpointDATA.x,nextcheckpointDATA.y,nextcheckpointDATA.z),new Vector3f(nextcheckpointDATA.rotx,nextcheckpointDATA.roty,nextcheckpointDATA.rotz));
+// type wath 1                                   hashcheckpoint
+  var checkpoint = new Checkpoint(typecheckpoint, 0x301477DB, new Vector3f(nextcheckpointDATA.x,nextcheckpointDATA.y,nextcheckpointDATA.z),new Vector3f(nextcheckpointDATA.rotx,nextcheckpointDATA.roty,nextcheckpointDATA.rotz));
       checkpoint.radius = 15;
       checkpoint.visible = true;
       checkpoint.dimension = dimension;
@@ -318,6 +338,14 @@ jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dime
 });
 function deletePOI(){
   pois.forEach(poi => {
+
+          //   poi.Destroy();
+          poi.visible = false;
+          poi.minDistance = 999999;
+          pois.splice(poi.id,1);
+          // poi.Destroy();
+  })
+  poisg.forEach(poi => {
 
           //   poi.Destroy();
           poi.visible = false;

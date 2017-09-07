@@ -75,12 +75,19 @@ jcmp.events.AddRemoteCallable('race_checkpoint', function (player)
     return;
   }
   if (player.race.checkpoints == Race.raceCheckpoint.length -1){ // if it's egal it's mean it's the last checkpoint
+let lastnextcheckpoint =  Race.raceCheckpoint[player.race.checkpoints];
+jcmp.events.CallRemote('race_checkpoint_client',player,JSON.stringify(lastnextcheckpoint),Race.id,Race.PoiType,Race.checkpointhash,Race.ChekpointType);
+console.log("last checkpoint");
+jcmp.events.CallRemote('Checkpoint_current_client',player,player.race.checkpoints);
 
+return;
   // change the poi text to last checkpoint
   }
 
+
   let positionnextcheckpoint =  Race.raceCheckpoint[player.race.checkpoints];
-  jcmp.events.CallRemote('race_checkpoint_client',player,JSON.stringify(positionnextcheckpoint),Race.id);
+  let positionghostcheckpoint =  Race.raceCheckpoint[player.race.checkpoints +1];
+    jcmp.events.CallRemote('race_checkpoint_client',player,JSON.stringify(positionnextcheckpoint),Race.id,Race.PoiType,Race.checkpointhash,Race.ChekpointType,JSON.stringify(positionghostcheckpoint));
     jcmp.events.CallRemote('Checkpoint_current_client',player,player.race.checkpoints);
 });
 
@@ -88,7 +95,8 @@ jcmp.events.Add('race_end_point', function (player)
 {
   player.race.hasfinish = true;
   const Race = player.race.game;
-clearInterval(player.race.timerinterval);
+  clearInterval(player.race.timerinterval);
+
   Race.leaderboard.push(player);
   let playern = player.networkId;
   Race.players.forEach(player => {
@@ -116,6 +124,7 @@ clearInterval(player.race.timerinterval);
       });
       setTimeout(function() {
         jcmp.events.Call('race_player_leave_game',player)
+        player.race.time = 0;
       }, 1000);
       return;
     }
@@ -185,6 +194,7 @@ jcmp.events.Add('race_player_checkpoint_respawn', function (player,vehicleold)
 
   }, race.game.respawntimer));
   setTimeout(function() {
+    if (player.race.vehicle != 0){
     const vehicle = new Vehicle(player.race.vehicle, player.position, player.race.playerrotationspawn);
     console.log("Vehicle spawning");
     vehicle.dimension = player.race.game.id;
@@ -193,6 +203,11 @@ jcmp.events.Add('race_player_checkpoint_respawn', function (player,vehicleold)
     //  race.game.RacePeopleDie.removePlayer(player);
       player.race.spawningdouble = false;
     }, race.game.respawntimer + 1000);
+                                      }
+
+  else{
+                                        //Wingsuit race
+              }
   }, race.game.respawntimer + 2000);
 
   setTimeout(function() {
@@ -220,13 +235,17 @@ jcmp.events.Add('race_timer_end', function (Race)
 
 jcmp.events.AddRemoteCallable('spawnVehicle', (player, modelhash) => {
   // call in the race_vehicle_choice_menu
+  if (player.race.vehicle != 0){
     player.race.vehicle = modelhash;
     const vehicle = new Vehicle(player.race.vehicle, player.position, player.rotation);
     vehicle.dimension = player.race.game.id;
     setTimeout(function() {
       vehicle.SetOccupant(0, player);
     }, 100);
-
+}
+else{
+  //Wingsuit race
+}
 
 });
 
@@ -257,6 +276,9 @@ jcmp.events.Add('race_start_index', function (indexs) {
     const defaultvehicle = races.defaultVehicle;
     const alldefaultvehicle = races.AllDefault;
     const addingyatspawn = races.AddingYatrespawn;
+    const checkpointhash = races.CheckpointHash;
+    const checkpointtype = races.ChekpointType;
+    const poitype = races.PoiType;
     let Race = new race.Race(
         Raceid, // id
         VehicleType, //vehicle type
@@ -268,7 +290,10 @@ jcmp.events.Add('race_start_index', function (indexs) {
         weatherr, // weather during the race
         defaultvehicle, // default vehicle of the race use if the player don't choice a vehicle in the menu
         alldefaultvehicle, // if everyone as the default vehicle or people can choice
-        addingyatspawn // when player respawning adding some alitute or reduce (mainly for airplane battle)
+        addingyatspawn, // when player respawning adding some alitute or reduce (mainly for airplane battle)
+        checkpointhash, // hash of the checkpoint (only have one now)
+        checkpointtype, // type of the checkpoint only one work now (1)
+        poitype
     );
 
     jcmp.events.Call('toast_show', null, {

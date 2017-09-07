@@ -7,6 +7,9 @@
   "defaultVehicle": 448735752,
   "AllDefault": true,
   "AddingYatrespawn": 250,
+  "CheckpointHash": "0x301477DB",
+  "ChekpointType": 1,
+  "PoiType": 10,
 
 
   "StartingPoint":[

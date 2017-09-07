@@ -8,6 +8,10 @@
   "defaultVehicle": 4225384683,
   "AllDefault": true,
   "AddingYatrespawn": 0,
+  "CheckpointHash": "0x301477DB",
+  "ChekpointType": 1,
+  "PoiType": 10,
+
 
   "StartingPoint":[
     {"x": -13196.7197265625,"y":1026.6026611328125,"z":14827.609375,"rotx":0,"roty":-1.3063937425613403,"rotz":0},
