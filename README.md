@@ -28,6 +28,7 @@ Copy the files into you're server/packages folder
 6. Create the tool to add map easily (Just need to made the interface)
 13. Clean code
 14. Making ghost checkpoint (to know the direction of the next one)
+15. Sync the voting system through all player and launch only one race event 
 
 #### Credits
 Created by Myami(FR) and the help of lordFarquaad.

@@ -25,8 +25,12 @@
    right:50%;
  }
 #timer{
-  font-size: 30pt;
+  font-size: 60pt;
+  color: red;
 }
+.hidden {
+        visibility: hidden;
+    }
     </style>
 </head>
 <body>
@@ -87,16 +91,20 @@ function Countdown_start(){
     document.getElementById("timer").innerText = (countdown);
 
     if (countdown == 20){
-      document.getElementById("timer").style.fontSize = "60pt";
+      document.getElementById("timer").style.fontSize = "120pt";
     }
     if (countdown == 0){
       clearInterval(inter);
       document.getElementById("timer").innerText = "";
-      toggleContainer("Countdown", false);
-      classname = "";
-      countdown = 60;
-        document.getElementById("timer").style.fontSize = "30pt";
 
+        setTimeout(function() {
+          toggleContainer("Countdown", false);
+      //    toggleContainer("timer", false);
+
+          classname = "";
+          countdown = 60;
+          document.getElementById("timer").style.fontSize = "60pt";
+        }, 500);
     }
 
     }, 1000);
@@ -137,6 +145,7 @@ jcmp.AddEvent('Send_best_vote_index',function(){
 var buttonwin = $("#" + classname + "button").val();
   console.log(buttonwin);
     $("#container").hide();
+    // if they are 2 player launch 2 race if they are 20 people launch 20 race
   jcmp.CallEvent('Race_send_index_cef',buttonwin);
 
   $('span').each(function() {
@@ -159,9 +168,10 @@ alreadyvote = false;
                    console.log(value);
                    $("#" + x + "span").val(value);
                    $("#" + x + "span").text(value);
-
+                   // didn't send to all the player
                   jcmp.HideCursor();
                   alreadyvote = true;
+
                  }
 
                       }
