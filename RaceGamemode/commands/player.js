@@ -51,10 +51,23 @@ module.exports = ({
     }
     }))
 
-    .add(new Command('votemenu').description('Open the vote menu').handler(function(player) {
+    .add(new Command('adminmenu').description('Open the race menu').handler(function(player) {
+      if(!race.utils.isAdmin(player)) {
+        return race.chat.send(player, "[SERVER] You're not allowed to use this command");
+      }
       if(!player.race.ingame)
-      jcmp.events.CallRemote('Open_voting_menu_client',player);
-      race.chat.send(player, "[SERVER] Open the voting menu");
+      jcmp.events.CallRemote('Open_admin_menu_client',player);
+      race.chat.send(player, "[SERVER] Open the race menu");
+
+    }))
+
+    .add(new Command('votemenu').description('Open the vote menu to everyone').handler(function(player) {
+      if(!race.utils.isAdmin(player)) {
+        return race.chat.send(player, "[SERVER] You're not allowed to use this command");
+      }
+      if(!player.race.ingame)
+      jcmp.events.CallRemote('Open_voting_menu_client',null,race.config.game.timervote);
+      race.chat.send(player, "[SERVER] Open the vote menu");
 
     }))
     .add(new Command('reset').description('reset').handler(function(player) {

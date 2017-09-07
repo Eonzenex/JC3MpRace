@@ -19,6 +19,14 @@
    right: 40%;
  }
 
+ #Countdown{
+   position: fixed;
+   top: 10%;
+   right:50%;
+ }
+#timer{
+  font-size: 30pt;
+}
     </style>
 </head>
 <body>
@@ -26,51 +34,137 @@
       <ul id="menu" class="menu"></ul>
   </div>
 
+  <div id="Countdown"class= "hidden">
+      <span id= "timer"></span>
+        </div>
+
 
     <script>
     $(document).ready(function(){
       $("#container").hide();
   });
-      jcmp.AddEvent('Race_name_index_cef',function(index,namew,name){
+      jcmp.AddEvent('Race_name_index_cef_vote',function(index,namew,name){
         console.log(index + name);
         var $submenu = $("<li></li>").attr("id", namew);
-        var $subbutton = $("<button></button>").attr("id", namew + "button" );
+        var $subbutton = $("<button></button>").attr({"id": namew + "button","class": namew });
+        var $subnum = $("<span></span>").attr({"id": namew + "span","class": namew });
         $($subbutton).val(index);
-        $($subbutton).on("click",onclickfunction);
+        $($subnum).val(0);
+        $subnum.text(0);
+        $($subbutton).on("click",onclickfunctionint);
         $($subbutton).text(name)
        $("#menu").after($submenu);
        $("#" + name).val(index);
-    //   $("#" + name).text(name);
-      $($submenu).append($subbutton);
+       $($submenu).append($subnum);
+       $($submenu).append($subbutton);
        $("#menu").append($submenu);
 
 
       });
 
+let winnerrace = "";
+let classname = "";
+let countdown = 60;
+let alreadyvote = false;
+toggleContainer("Countdown", false);
 
-
-
-jcmp.AddEvent("Open_voting_menu", function() {
+jcmp.AddEvent("Open_vote_menu", function(time) {
 $("#container").show();
     jcmp.ShowCursor();
+    toggleContainer("Countdown", true);
+    Countdown_start();
      // make appear the list
+
+     let inter =  setTimeout(function() {
+       jcmp.CallEvent('Close_voting_menu');
+       jcmp.CallEvent('Send_best_vote_index');
+
+     }, time);
 });
+function Countdown_start(){
+  let inter =  setInterval(function() {
+    countdown --;
+    document.getElementById("timer").innerText = (countdown);
+
+    if (countdown == 20){
+      document.getElementById("timer").style.fontSize = "60pt";
+    }
+    if (countdown == 0){
+      clearInterval(inter);
+      document.getElementById("timer").innerText = "";
+      toggleContainer("Countdown", false);
+      classname = "";
+      countdown = 60;
+        document.getElementById("timer").style.fontSize = "30pt";
+
+    }
+
+    }, 1000);
+}
+
+
+
+    function toggleContainer(container, status) {
+          // Status true = SHOW, false = HIDE
+          if(status != null) {
+              if(status) {
+                  document.getElementById(container).classList.remove("hidden");
+              } else {
+                  document.getElementById(container).classList.add("hidden");
+              }
+          } else {
+              document.getElementById(container).classList.toggle("hidden");
+          }
+      }
+
 jcmp.AddEvent('Close_voting_menu',function(){
   $("#container").hide();
     jcmp.HideCursor();
 });
-jcmp.AddEvent('Update_counter_race',function(){
-  // update to everyone the counter of race to see witch one will be launch
+
+jcmp.AddEvent('Send_best_vote_index',function(){
+
+   $('span').each(function() {
+    console.log($(this).val());
+    let vote = $(this).val() ;
+    let highervote = 0 ;
+
+    if (vote > highervote){
+      highervote = vote;
+      classname = $(this).attr('class');
+    }
+  });
+var buttonwin = $("#" + classname + "button").val();
+  console.log(buttonwin);
+    $("#container").hide();
+  jcmp.CallEvent('Race_send_index_cef',buttonwin);
+
+  $('span').each(function() {
+   $(this).val(0);
+   $(this).text(0);
+
+
+ });
+alreadyvote = false;
 });
 
 
-        function  onclickfunction(){
-               var x = $(this).val() ;
-               console.log(x);
-               $("#container").hide();
-               jcmp.CallEvent('Race_Index_cef',x);
-               jcmp.HideCursor();
-               }
+
+               function  onclickfunctionint(){
+                 if(alreadyvote == false){
+                   var x = $(this).attr('class');
+                   console.log(x);
+                   var value =  $("#" + x + "span").val();
+                   value ++;
+                   console.log(value);
+                   $("#" + x + "span").val(value);
+                   $("#" + x + "span").text(value);
+
+                  jcmp.HideCursor();
+                  alreadyvote = true;
+                 }
+
+                      }
 
 
 

@@ -23,8 +23,9 @@ module.exports = {
             radius: 1000
         },
         battle_StartRadius: 2000,
-        minPlayers: 21,
-        timeToStart: 120000, // Start time of the battle when reach the min players on miliseconds
+        minPlayers: 22,
+        timeToStart: 120000,
+        timervote : 0
 
     }
 

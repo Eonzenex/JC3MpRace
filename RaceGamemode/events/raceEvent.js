@@ -9,11 +9,13 @@ jcmp.events.Add('race_updates', function () {
           // Start a new interval
           race.game.toStart = true;
           race.utils.broadcastToLobby("The game is going to start in 2 minutes!");
+        //   jcmp.events.CallRemote('Open_voting_menu_client',null , race.config.game.timervote);
+          // open the menu to choice the map and then launch the race
+
 
           race.game.timeToStart = race.config.game.timeToStart;
           race.game.StartTimer = setTimeout(function () {
-            //  jcmp.events.Call('race_start_battle');
-            // open the menu to choice the map and then launch the race
+
           }, race.config.game.timeToStart);
       }
 
@@ -292,17 +294,25 @@ jcmp.events.Add('race_start_index', function (indexs) {
 jcmp.events.Add('Race_name_index',function(player){
   let index = race.game.RaceList;
     for(var i = 0; i < index.length; i++) {
-  
-      jcmp.events.CallRemote('Race_name_index_client',player,i,index[i].NameWithoutSpace ,index[i].Name );
+      jcmp.events.CallRemote('Race_name_index_client_admin',player,i,index[i].NameWithoutSpace ,index[i].Name);
+      jcmp.events.CallRemote('Race_name_index_client_vote',player,i,index[i].NameWithoutSpace ,index[i].Name);
+
     }
 
 });
 
 
 
-jcmp.events.AddRemoteCallable('Race_index_received',function(player,index){
+jcmp.events.AddRemoteCallable('Race_index_received_admin',function(player,index){
   if(!race.utils.isAdmin(player)) {
     return race.chat.send(player, "[SERVER] Reserved to admin for now try when the votingsystem will work");
   }
   jcmp.events.Call('race_start_index',index);
-})
+});
+
+jcmp.events.AddRemoteCallable('Race_index_received_vote',function(player,index){
+  if(!race.utils.isAdmin(player)) {
+    return race.chat.send(player, "[SERVER] Reserved to admin for now try when the votingsystem will work");
+  }
+  jcmp.events.Call('race_start_index',index);
+});

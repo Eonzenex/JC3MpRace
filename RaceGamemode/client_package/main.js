@@ -12,6 +12,9 @@ text.autoResize = true;
 var vote = new WebUIWindow("race vote", "package://race/ui/vote.html", new Vector2(jcmp.viewportSize.x, jcmp.viewportSize.y));
 vote.autoResize = true;
 
+var adminchoice = new WebUIWindow("race adminchoice", "package://race/ui/admin.html", new Vector2(jcmp.viewportSize.x, jcmp.viewportSize.y));
+adminchoice.autoResize = true;
+
 
 //POI
 let pois = [];
@@ -159,9 +162,14 @@ jcmp.events.AddRemoteCallable('race_deathui_show', function(killerName) {
 
 jcmp.events.CallRemote('race_debug', 'DeathUI LOADED');
 
-jcmp.events.AddRemoteCallable('Open_voting_menu_client', function(){
-  jcmp.ui.CallEvent('Open_voting_menu');
+jcmp.events.AddRemoteCallable('Open_admin_menu_client', function(){
+  jcmp.ui.CallEvent('Open_admin_menu');
 });
+
+jcmp.events.AddRemoteCallable('Open_voting_menu_client', function(time){
+  jcmp.ui.CallEvent('Open_vote_menu' , time);
+});
+
 jcmp.events.Add("GameUpdateRender", function(renderer) {
 
   const cam = jcmp.localPlayer.camera.position;
@@ -214,9 +222,21 @@ jcmp.events.AddRemoteCallable('race_ready', function(data) {
 });
 
 
-jcmp.events.AddRemoteCallable('Race_name_index_client',function(index,namew,name){
+jcmp.events.AddRemoteCallable('Race_name_index_client_admin',function(index,namew,name){
+jcmp.ui.CallEvent('Race_name_index_cef_admin',index,namew,name);
+});
+
+jcmp.events.AddRemoteCallable('Race_name_index_client_vote',function(index,namew,name){
   jcmp.print("" + index + name);
-jcmp.ui.CallEvent('Race_name_index_cef',index,namew,name);
+jcmp.ui.CallEvent('Race_name_index_cef_vote',index,namew,name);
+});
+
+jcmp.events.AddRemoteCallable('Race_name_vote_data',function(){
+jcmp.ui.CallEvent('Send_best_vote_index');
+});
+
+jcmp.ui.AddEvent('Race_send_index_cef',function(index){ // from the voting system
+jcmp.events.CallRemote('Race_index_received_vote',index);
 });
 jcmp.events.AddRemoteCallable('race_player_created', function(data) {
 
@@ -261,8 +281,8 @@ jcmp.events.CallRemote('spawnVehicle',hash); // send the hash to the server
 });
 
 jcmp.ui.AddEvent('Race_Index_cef',function(index){
-  jcmp.print("" + index);
-jcmp.events.CallRemote('Race_index_received',index);
+
+jcmp.events.CallRemote('Race_index_received_admin',index);
 });
 
 jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dimension) {

@@ -83,7 +83,7 @@ jcmp.events.Add('PlayerReady', function(player) {
     console.log(" * " + race.game.players.onlobby.length + " on lobby waiting");
     setTimeout(function() {
       jcmp.events.Call('Race_name_index',player);
-    }, 1000);
+    }, 2000);
 
 
 
