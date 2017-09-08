@@ -21,7 +21,9 @@ global.race = {
       RaceList:[],
       timeToStart: 0,
       RacePeopleDie: [],
-      respawntimer: 1000 // 5 seconds
+      respawntimer: 1000 ,// 5 seconds
+      RaceLaunch: true
+
     }
 };
 

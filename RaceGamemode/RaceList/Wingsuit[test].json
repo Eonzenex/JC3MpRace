@@ -12,6 +12,9 @@
   "ChekpointType": 1,
   "PoiType": 10,
   "GhostPOIType": 23,
+  "nitroenabled": true,
+  "max_player": 20,
+
 
   "StartingPoint":[
     {"x": -13196.7197265625,"y":1026.6026611328125,"z":14827.609375,"rotx":0,"roty":-1.3063937425613403,"rotz":0},

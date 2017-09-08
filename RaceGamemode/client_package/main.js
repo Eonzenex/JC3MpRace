@@ -308,7 +308,7 @@ jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dime
           ghostpoi.minDistance = 10.0;
           ghostpoi.maxDistance = 100000.0;
           ghostpoi.clampedToScreen = false;
-          ghostpoi.text = "Ghost Checkpoint";
+          ghostpoi.text = "";
           ghostpoi.id = ghostcheckpointDATA.id;
           ghostpoi.dimension = dimension;//Race.id
           poisg[ghostcheckpointDATA.id] = ghostpoi;
@@ -317,7 +317,7 @@ jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dime
      }
 
 // to show the checkpoint
-// type wath 1                                   hashcheckpoint
+// type wath 1                 hashcheckpoint
   var checkpoint = new Checkpoint(typecheckpoint, 0x301477DB, new Vector3f(nextcheckpointDATA.x,nextcheckpointDATA.y,nextcheckpointDATA.z),new Vector3f(nextcheckpointDATA.rotx,nextcheckpointDATA.roty,nextcheckpointDATA.rotz));
       checkpoint.radius = 15;
       checkpoint.visible = true;
@@ -402,6 +402,13 @@ jcmp.ui.AddEvent('race_countdown_end', function() {
 
 });
 
+jcmp.ui.AddEvent('Update_All_Client',function(name,value){
+  jcmp.events.CallRemote('Update_All_Client_server',name,value);
+});
+
+jcmp.events.AddRemoteCallable('Update_All_Client_toeveryone',function(name,value){
+    jcmp.ui.CallEvent('UpdateUIforvote',name,value);
+});
 jcmp.events.AddRemoteCallable('Player_data_Announce', (leaderboardplace, time) => {
       jcmp.ui.CallEvent('Race_rank_container',leaderboardplace,time);
 });

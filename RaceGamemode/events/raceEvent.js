@@ -196,6 +196,7 @@ jcmp.events.Add('race_player_checkpoint_respawn', function (player,vehicleold)
   setTimeout(function() {
     if (player.race.vehicle != 0){
     const vehicle = new Vehicle(player.race.vehicle, player.position, player.race.playerrotationspawn);
+  vehicle.nitroEnabled = player.race.nitro;
     console.log("Vehicle spawning");
     vehicle.dimension = player.race.game.id;
     setTimeout(function() {
@@ -238,6 +239,7 @@ jcmp.events.AddRemoteCallable('spawnVehicle', (player, modelhash) => {
   if (player.race.vehicle != 0){
     player.race.vehicle = modelhash;
     const vehicle = new Vehicle(player.race.vehicle, player.position, player.rotation);
+    vehicle.nitroEnabled = player.race.nitro;
     vehicle.dimension = player.race.game.id;
     setTimeout(function() {
       vehicle.SetOccupant(0, player);
@@ -257,6 +259,11 @@ jcmp.events.AddRemoteCallable('Race_player_timer_start',(player)=> {
   }, 1000);
 player.race.timerinterval = timerinterval;
 
+});
+
+jcmp.events.AddRemoteCallable('Update_All_Client_server',function(player,name,value){
+  console.log(name + value);
+  jcmp.events.CallRemote('Update_All_Client_toeveryone',null,name,value);
 });
 
 jcmp.events.Add('race_start_index', function (indexs) {
@@ -279,6 +286,8 @@ jcmp.events.Add('race_start_index', function (indexs) {
     const checkpointhash = races.CheckpointHash;
     const checkpointtype = races.ChekpointType;
     const poitype = races.PoiType;
+    const ghostpoi = races.GhostPOIType;
+    const nitro = races.nitroenabled;
     let Race = new race.Race(
         Raceid, // id
         VehicleType, //vehicle type
@@ -293,7 +302,9 @@ jcmp.events.Add('race_start_index', function (indexs) {
         addingyatspawn, // when player respawning adding some alitute or reduce (mainly for airplane battle)
         checkpointhash, // hash of the checkpoint (only have one now)
         checkpointtype, // type of the checkpoint only one work now (1)
-        poitype
+        poitype,
+        ghostpoi,
+        nitro
     );
 
     jcmp.events.Call('toast_show', null, {
@@ -330,8 +341,12 @@ jcmp.events.AddRemoteCallable('Race_index_received_admin',function(player,index)
 });
 
 jcmp.events.AddRemoteCallable('Race_index_received_vote',function(player,index){
-  if(!race.utils.isAdmin(player)) {
-    return race.chat.send(player, "[SERVER] Reserved to admin for now try when the votingsystem will work");
-  }
+if (race.game.RaceLaunch){
   jcmp.events.Call('race_start_index',index);
+  race.game.RaceLaunch = false;
+  setTimeout(function() {
+    race.game.RaceLaunch = true;
+  }, 5000);
+}
+
 });

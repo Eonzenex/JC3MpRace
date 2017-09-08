@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = class Race {
-  constructor(id, VehicleType, player, NumberofPlayer, StartingPoint, RaceCheckpoint,times,weatherr,defaultvehicle,alldefaultvehicle,addingyatspawn,checkpointhash,checkpointtype,poitype) {
+  constructor(id, VehicleType, player, NumberofPlayer, StartingPoint, RaceCheckpoint,times,weatherr,defaultvehicle,alldefaultvehicle,addingyatspawn,checkpointhash,checkpointtype,poitype,nitrobool,ghostpoi) {
     this.id = id;
     this.vehicletype = VehicleType;
     this.players = player;
@@ -16,6 +16,8 @@ module.exports = class Race {
     this.checkpointhash = checkpointhash;
     this.ChekpointType = checkpointtype;
     this.PoiType = poitype;
+    this.ghostpoi = ghostpoi;
+    this.nitro = nitrobool;
     this.leaderboard = [];
   }
 
@@ -44,6 +46,7 @@ Start(){
              const vehicle = new Vehicle(player.race.vehicle, player.position,rotation);
              vehicle.dimension = player.race.game.id;
              vehicle.SetOccupant(0, player);
+             vehicle.nitroEnabled = this.nitro;
            }
            else{
              // wingsuit race

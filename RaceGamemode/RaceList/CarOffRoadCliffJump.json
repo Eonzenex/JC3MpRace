@@ -1,6 +1,6 @@
 {
   "Name":"CAR-Offroad Cliff Jump",
-    "NameWithoutSpace":"CarOffRoadCliff",
+  "NameWithoutSpace":"CarOffRoadCliff",
   "VehicleType": "car",
   "time" : {"hour": 11, "minute": 30},
   "weather": "base",
@@ -11,6 +11,8 @@
   "ChekpointType": 1,
   "PoiType": 10,
   "GhostPOIType": 23,
+  "nitroenabled": true,
+  "max_player": 20,
 
 
   "StartingPoint":[

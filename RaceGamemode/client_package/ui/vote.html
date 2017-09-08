@@ -154,10 +154,15 @@ var buttonwin = $("#" + classname + "button").val();
 
 
  });
+
 alreadyvote = false;
 });
 
-
+jcmp.AddEvent('UpdateUIforvote',function(name,value){
+  $(name).val(value);
+  $(name).text(value);
+  
+});
 
                function  onclickfunctionint(){
                  if(alreadyvote == false){
@@ -165,10 +170,12 @@ alreadyvote = false;
                    console.log(x);
                    var value =  $("#" + x + "span").val();
                    value ++;
+                   var nameofthevar = "#" + x + "span";
                    console.log(value);
                    $("#" + x + "span").val(value);
                    $("#" + x + "span").text(value);
                    // didn't send to all the player
+                   jcmp.CallEvent('Update_All_Client',nameofthevar,value);
                   jcmp.HideCursor();
                   alreadyvote = true;
 
