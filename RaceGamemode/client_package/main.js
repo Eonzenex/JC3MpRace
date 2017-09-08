@@ -304,7 +304,7 @@ jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dime
      pois[nextcheckpointDATA.id] = poi;
 
      if (ghostcheckpoint != undefined){
-       const ghostpoi = new POI(typepoi,new Vector3f(ghostcheckpointDATA.x,ghostcheckpointDATA.y,ghostcheckpointDATA.z));
+       const ghostpoi = new POI(24,new Vector3f(ghostcheckpointDATA.x,ghostcheckpointDATA.y,ghostcheckpointDATA.z));
           ghostpoi.minDistance = 10.0;
           ghostpoi.maxDistance = 100000.0;
           ghostpoi.clampedToScreen = false;

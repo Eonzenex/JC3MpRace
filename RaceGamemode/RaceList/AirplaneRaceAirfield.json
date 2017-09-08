@@ -10,6 +10,7 @@
   "CheckpointHash": "0x301477DB",
   "ChekpointType": 1,
   "PoiType": 10,
+  "GhostPOIType": 23,
 
 
   "StartingPoint":[
