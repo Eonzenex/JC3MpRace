@@ -27,7 +27,6 @@ Copy the files into you're server/packages folder
 3. Fixing issue link to the race gamemode
 6. Create the tool to add map easily (Just need to made the interface)
 13. Clean code
-15. Sync the voting system through all player and launch only one race event
 
 #### Credits
 Created by Myami(FR) and the help of lordFarquaad for scripting. || JSON File (Race) created by Protato .
