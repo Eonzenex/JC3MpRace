@@ -3,7 +3,7 @@
 # WIP not working
 
 ### Installation
-Copy the files into you're server/packages folder
+Copy the files into your server/packages folder
 
 
 
@@ -22,10 +22,10 @@ Copy the files into you're server/packages folder
 
 #### TODO :
 
-1. Changing css everywhere
-3. Fixing issue link to the race gamemode
-6. Create the tool to add map easily (Just need to made the interface)
+1. Change css everywhere
+3. Fix issue link to the race gamemode
+6. Create a tool to add map easily (Just need to made the interface)
 13. Clean code
 
 #### Credits
-Created by Myami(FR) and the help of lordFarquaad for scripting. || JSON File (Race) created by Protato .
+Created by Myami(FR) and the help of lordFarquaad for scripting. || JSON File (Race) created by Protato.

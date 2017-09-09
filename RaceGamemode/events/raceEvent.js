@@ -68,7 +68,7 @@ jcmp.events.AddRemoteCallable('race_checkpoint', function (player)
   player.race.checkpoints ++;
 
   if (player.race.checkpoints == Race.raceCheckpoint.length){ // if it's egal it's mean it's the last checkpoint
-    race.chat.send(player, "[SERVER] You have finish the race well done !!!!");
+    race.chat.send(player, "[SERVER] You finished the race! Well done!!");
   jcmp.events.Call('race_end_point',player);
     // whas last checkpoint
 
@@ -115,11 +115,11 @@ jcmp.events.Add('race_end_point', function (player)
       let minute = Math.floor(player.race.time / 60);
       let seconds = player.race.time % 60
       let playername = player.name;
-      race.chat.broadcast(`[SERVER] ${player.name} is ${leaderboardplace} with a time of ${minute} minutes and ${seconds} secondes`,race.config.colours.red);
+      race.chat.broadcast(`[SERVER] ${player.name} is ${leaderboardplace} with a time of ${minute} minutes and ${seconds} seconds!`,race.config.colours.red);
       jcmp.events.CallRemote('Player_data_Announce',player,leaderboardplace,player.race.time);
       jcmp.events.Call('toast_show', player, {
           heading: 'You just end the race',
-          text: `You just end the race at the position ${leaderboardplace} nice play`,
+          text: `You just finished the race in ${leaderboardplace} position. Nice play!`,
           icon: 'info',
           loader: true,
           loaderBg: '#9EC600',
@@ -324,7 +324,7 @@ jcmp.events.Add('race_start_index', function (indexs) {
 
     jcmp.events.Call('toast_show', null, {
         heading: 'Race starting',
-        text: "The Race is starting be ready the countdown begin",
+        text: "The Race is starting! Get ready, the countdown begins.",
         icon: 'info',
         loader: true,
         loaderBg: '#9EC600',
@@ -352,7 +352,7 @@ jcmp.events.Add('Race_name_index',function(player){
 
 jcmp.events.AddRemoteCallable('Race_index_received_admin',function(player,index){
   if(!race.utils.isAdmin(player)) {
-    return race.chat.send(player, "[SERVER] Reserved to admin for now try when the votingsystem will work");
+    return race.chat.send(player, "[SERVER] Reserved for admins, for now try the voting system");
   }
   jcmp.events.Call('race_start_index',index);
 });

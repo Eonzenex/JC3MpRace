@@ -17,7 +17,7 @@ module.exports = ({ Command, manager }) => {
       fs.appendFileSync("./startingpoint.txt", startingpoint);
     }
 
-    createrace.chat.send(player, "Position saved sucesfully", createrace.config.colours.command_success);
+    createrace.chat.send(player, "Start Position saved sucesfully", createrace.config.colours.command_success);
   }));
 
 .add(new Command('checkpoint').description('Save a position to file for checkpoint').handler(function(player) {
@@ -34,7 +34,7 @@ if(!fs.existsSync('./checkpoint.txt')) {
   fs.appendFileSync("./checkpoint.txt", checkpointpoint);
 }
 
-createrace.chat.send(player, "Position saved sucesfully", createrace.config.colours.command_success);
+createrace.chat.send(player, "Checkpoint Position saved sucesfully", createrace.config.colours.command_success);
 }));
 };
 
@@ -45,7 +45,7 @@ createrace.id = 0;
 createrace.chat.send(player, "ID changed to 0", createrace.config.colours.command_success);
 }));
 
-.add(new Command('spawnairplane').description('spawn an airplanes').handler(function(player) {
+.add(new Command('spawnairplane').description('spawn an airplane').handler(function(player) {
 
   const vehicle = new Vehicle(448735752, player.position, player.rotation);
   vehicle.dimension = player.race.game.id;
@@ -54,7 +54,7 @@ createrace.chat.send(player, "ID changed to 0", createrace.config.colours.comman
   }, 100);
 
 
-createrace.chat.send(player, "spawn airplanes", createrace.config.colours.command_success);
+createrace.chat.send(player, "spawned an airplane", createrace.config.colours.command_success);
 }));
 
 .add(new Command('spawnboats').description('spawn an boats').handler(function(player) {
@@ -66,6 +66,6 @@ createrace.chat.send(player, "spawn airplanes", createrace.config.colours.comman
   }, 100);
 
 
-createrace.chat.send(player, "spawn boats", createrace.config.colours.command_success);
+createrace.chat.send(player, "spawned a boat", createrace.config.colours.command_success);
 }));
 };

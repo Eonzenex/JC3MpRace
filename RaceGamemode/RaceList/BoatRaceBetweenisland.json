@@ -1,5 +1,5 @@
 {
-  "Name":"BOAT-BetweenIsland",
+  "Name":"BOAT-Between-Island",
     "NameWithoutSpace":"BoatBetweenIsland",
   "VehicleType": "boats",
   "time" : {"hour": 11, "minute": 30},
@@ -7,14 +7,6 @@
   "defaultVehicle": 1442821020,
   "AllDefault": true,
   "AddingYatrespawn": 0,
-  "CheckpointHash": "0x301477DB",
-  "ChekpointType": 1,
-  "PoiType": 10,
-  "GhostPOIType": 23,
-  "nitroenabled": true,
-  "max_player": 20,
-
-
 
 
   "StartingPoint":[

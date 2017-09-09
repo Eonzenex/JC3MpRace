@@ -1,5 +1,5 @@
 {
-  "Name":"AIRPLANE-Airfield",
+  "Name":"AIRPLANE-Airfield-Race",
   "NameWithoutSpace":"AirfieldPlaneRace",
   "VehicleType": "planes",
   "time" : {"hour": 11, "minute": 30},
@@ -7,13 +7,6 @@
   "defaultVehicle": 448735752,
   "AllDefault": true,
   "AddingYatrespawn": 250,
-  "CheckpointHash": "0x301477DB",
-  "ChekpointType": 1,
-  "PoiType": 10,
-  "GhostPOIType": 23,
-  "nitroenabled": true,
-  "max_player": 20,
-
 
 
   "StartingPoint":[
