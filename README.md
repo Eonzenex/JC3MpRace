@@ -23,7 +23,6 @@ Copy the files into you're server/packages folder
 #### TODO :
 
 1. Changing css everywhere
-2. Create a leaderboard
 3. Fixing issue link to the race gamemode
 6. Create the tool to add map easily (Just need to made the interface)
 13. Clean code

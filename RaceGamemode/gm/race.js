@@ -22,6 +22,8 @@ module.exports = class Race {
   }
 
 Start(){
+  jcmp.events.CallRemote('Remove_Leaderboard_name',null);
+
   //TODO: Choice menu for 20 sec to choice the vehicle (settimeout)
 
   // alldefaultvehicle if it's true all have the same vehicle (the default) if it's false show the vehicle menu
@@ -38,6 +40,9 @@ Start(){
         player.race.ingame = true;
         player.dimension = this.id;
         player.race.time = 0;
+        player.race.hasfinish = false;
+
+
         if (this.alldefaultvehicle){
          player.race.vehicle = this.defaultvehicle;
          //jcmp.events.Call('race_player_checkpoint_respawn', player);
@@ -53,13 +58,14 @@ Start(){
            }
 
          }, 4000);
+
         }else{
         //  jcmp.events.CallRemote('race_vehicle_choice_menu',player);
         }
-        setTimeout(function() {
-          jcmp.events.CallRemote('race_Freeze_player',player);
-        }, 1000);
-
+        let playername = player.name;
+        this.AddPlayerOnLeaderboard(playername);
+  
+        jcmp.events.CallRemote('race_Freeze_player',player);
         jcmp.events.CallRemote('race_set_time', player, this.time.hour, this.time.minute);
         jcmp.events.CallRemote('race_set_weather', player, this.weather);
         //spawning the first checkpoint
@@ -85,7 +91,24 @@ Start(){
     }
   }
 
+AddPlayerOnLeaderboard(playername){
+  for(let player of this.players) {
+    jcmp.events.CallRemote('Add_Player_On_Leaderboard',player,playername);
+  }
+}
 
+UpdateTimeOnLeaderboard (playername,minute,seconds){
+  for(let player of this.players) {
+    jcmp.events.CallRemote('leaderboard_Update_time',player,playername,minute,seconds);
+  }
+}
+
+UpdateEndLeaderboard (playername,leaderboardplace,minute,seconds){
+  for(let player of this.players) {
+    jcmp.events.CallRemote('Update_leaderboard_all',player,playername,leaderboardplace,minute,seconds);
+  }
+
+}
 
 
 }

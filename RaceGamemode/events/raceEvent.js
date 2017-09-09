@@ -84,11 +84,12 @@ return;
   // change the poi text to last checkpoint
   }
 
-
   let positionnextcheckpoint =  Race.raceCheckpoint[player.race.checkpoints];
   let positionghostcheckpoint =  Race.raceCheckpoint[player.race.checkpoints +1];
     jcmp.events.CallRemote('race_checkpoint_client',player,JSON.stringify(positionnextcheckpoint),Race.id,Race.PoiType,Race.checkpointhash,Race.ChekpointType,JSON.stringify(positionghostcheckpoint));
     jcmp.events.CallRemote('Checkpoint_current_client',player,player.race.checkpoints);
+
+
 });
 
 jcmp.events.Add('race_end_point', function (player)
@@ -102,7 +103,9 @@ jcmp.events.Add('race_end_point', function (player)
   Race.players.forEach(player => {
     if(player.race.ingame)
   Race.leaderboard = player.race.game.leaderboard;
+  
   })
+
   for(var i = 0; i < Race.leaderboard.length; i++) {
 
     const player = Race.leaderboard[i];
@@ -111,6 +114,7 @@ jcmp.events.Add('race_end_point', function (player)
       // send the leaderboardplace to the client
       let minute = Math.floor(player.race.time / 60);
       let seconds = player.race.time % 60
+      let playername = player.name;
       race.chat.broadcast(`[SERVER] ${player.name} is ${leaderboardplace} with a time of ${minute} minutes and ${seconds} secondes`,race.config.colours.red);
       jcmp.events.CallRemote('Player_data_Announce',player,leaderboardplace,player.race.time);
       jcmp.events.Call('toast_show', player, {
@@ -122,11 +126,13 @@ jcmp.events.Add('race_end_point', function (player)
           position: 'top-right',
           hideAfter: 5000
       });
+
+        Race.UpdateEndLeaderboard(playername,leaderboardplace,minute,seconds);
       setTimeout(function() {
         jcmp.events.Call('race_player_leave_game',player)
         player.race.time = 0;
-      }, 1000);
-      return;
+      }, 500);
+
     }
 
   }
@@ -151,7 +157,6 @@ jcmp.events.Add('race_player_leave_game', function (player,destroy)
     Race.players.removePlayer(player);
     race.game.players.ingame.removePlayer(player);
     player.race.checkpoints = 0;
-    player.race.hasfinish = false;
     player.race.time = 0;
     jcmp.events.CallRemote('race_End_client',player);
 
@@ -252,10 +257,18 @@ else{
 });
 
 jcmp.events.AddRemoteCallable('Race_player_timer_start',(player)=> {
+  const Race = player.race.game;
   const timerinterval = setInterval(function() {
   if (player != undefined && player.name != undefined)
     if(player.race.ingame)
     player.race.time ++ ;
+    let minute = Math.floor(player.race.time / 60);
+    let seconds = player.race.time % 60
+    let playername = player.name ;
+    Race.UpdateTimeOnLeaderboard(playername,minute,seconds);
+    console.log(player.name + "timerupdate");
+
+
   }, 1000);
 player.race.timerinterval = timerinterval;
 
@@ -330,6 +343,8 @@ jcmp.events.Add('Race_name_index',function(player){
     }
 
 });
+
+
 
 
 

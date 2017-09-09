@@ -15,6 +15,9 @@ vote.autoResize = true;
 var adminchoice = new WebUIWindow("race adminchoice", "package://race/ui/admin.html", new Vector2(jcmp.viewportSize.x, jcmp.viewportSize.y));
 adminchoice.autoResize = true;
 
+var leaderboard = new WebUIWindow("race leaderboard", "package://race/ui/leaderboard.html", new Vector2(jcmp.viewportSize.x, jcmp.viewportSize.y));
+adminchoice.autoResize = true;
+
 
 //POI
 let pois = [];
@@ -317,7 +320,7 @@ jcmp.events.AddRemoteCallable('race_checkpoint_client', function(checkpoint,dime
      }
 
 // to show the checkpoint
-// type wath 1                 hashcheckpoint
+// type wath 1
   var checkpoint = new Checkpoint(typecheckpoint, 0x301477DB, new Vector3f(nextcheckpointDATA.x,nextcheckpointDATA.y,nextcheckpointDATA.z),new Vector3f(nextcheckpointDATA.rotx,nextcheckpointDATA.roty,nextcheckpointDATA.rotz));
       checkpoint.radius = 15;
       checkpoint.visible = true;
@@ -419,3 +422,20 @@ jcmp.events.AddRemoteCallable('race_set_time', (hour, minute) => {
 jcmp.events.AddRemoteCallable('race_set_weather', weather => {
     jcmp.world.weather = weather;
 });
+
+
+jcmp.events.AddRemoteCallable('leaderboard_Update_time',function(playername,minute,seconds){
+  jcmp.ui.CallEvent('Leaderboard_update_time',playername,minute,seconds);
+});
+
+jcmp.events.AddRemoteCallable('Update_leaderboard_all',function(playername,leaderboardplace,minutes,seconds){
+  jcmp.ui.CallEvent('Leaderboard_update_end',playername,leaderboardplace,minutes,seconds);
+});
+
+jcmp.events.AddRemoteCallable('Remove_Leaderboard_name',function(){
+  jcmp.ui.CallEvent('Leaderboard_remove_all');
+})
+
+jcmp.events.AddRemoteCallable('Add_Player_On_Leaderboard',function(playername){
+  jcmp.ui.CallEvent('AddPlayerOnLeaderboard',playername);
+})
