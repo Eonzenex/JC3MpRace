@@ -103,7 +103,7 @@ jcmp.events.Add('race_end_point', function (player)
   Race.players.forEach(player => {
     if(player.race.ingame)
   Race.leaderboard = player.race.game.leaderboard;
-  
+
   })
 
   for(var i = 0; i < Race.leaderboard.length; i++) {
@@ -280,6 +280,8 @@ jcmp.events.AddRemoteCallable('Update_All_Client_server',function(player,name,va
 });
 
 jcmp.events.Add('race_start_index', function (indexs) {
+  jcmp.events.CallRemote('Remove_Leaderboard_name',null);
+
     race.utils.broadcastToLobby("[SERVER] The race is starting be ready!!!!");
     race.game.toStart = false;
     race.game.timeToStart = race.config.game.timeToStart;

@@ -55,7 +55,7 @@
    </div>
 
     <script>
-
+$("#leaderboard").hide();
 jcmp.AddEvent('AddPlayerOnLeaderboard',function(playername){
   var $submenu = $("<tr></tr>").attr("id", playername);
   var $name = $("<td></td>").attr({"id": playername + "1" });

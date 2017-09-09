@@ -22,7 +22,6 @@ module.exports = class Race {
   }
 
 Start(){
-  jcmp.events.CallRemote('Remove_Leaderboard_name',null);
 
   //TODO: Choice menu for 20 sec to choice the vehicle (settimeout)
 
@@ -64,7 +63,7 @@ Start(){
         }
         let playername = player.name;
         this.AddPlayerOnLeaderboard(playername);
-  
+
         jcmp.events.CallRemote('race_Freeze_player',player);
         jcmp.events.CallRemote('race_set_time', player, this.time.hour, this.time.minute);
         jcmp.events.CallRemote('race_set_weather', player, this.weather);

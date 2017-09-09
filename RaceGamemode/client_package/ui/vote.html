@@ -17,6 +17,9 @@
    position:fixed;
    top : 30%;
    right: 40%;
+   list-style-type: none;
+   overflow: auto;
+
  }
 
  #Countdown{
@@ -28,6 +31,21 @@
   font-size: 60pt;
   color: red;
 }
+#menu{
+  list-style-type: none;
+    font-family: 'Passion One', cursive;
+    font-size: 15pt;
+    background-color: rgba(0, 149, 255, 0.3);
+
+}
+span{
+
+}
+button{
+
+}
+
+
 .hidden {
         visibility: hidden;
     }
@@ -161,7 +179,7 @@ alreadyvote = false;
 jcmp.AddEvent('UpdateUIforvote',function(name,value){
   $(name).val(value);
   $(name).text(value);
-  
+
 });
 
                function  onclickfunctionint(){

@@ -177,6 +177,7 @@ module.exports = class Utility {
       list.forEach(f => {
         require(`${path}/${f}`);
         let topush = `${f}: require(${path}/${f});` ;
+        console.log(f);
         race.game.RaceList.push(topush);
 
       });
